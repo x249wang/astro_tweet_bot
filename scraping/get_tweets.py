@@ -50,9 +50,18 @@ if __name__ == "__main__":
         'Hide_output': True
     }
 
-    with open('data/astro_twitter_accounts.txt', 'r') as f:
-        accounts = f.readlines()
-        accounts = [account.strip() for account in accounts]
+    accounts = [
+        'Rude_Astrology', 
+        'saguniversal', 
+        'AstrologyVibez', 
+        'starheal', 
+        'AnneOrtelee',
+        'martianmercury',
+        'astrobebs', 
+        'poetastrologers',
+        'astroguide', 
+        'keldreamer'
+    ]
 
     for account in accounts:
         

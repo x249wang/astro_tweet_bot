@@ -1,9 +1,5 @@
 .vscode
 __pycache__
 backup/
-data/
-ft_results_sm_all/
-transformers/
+tests/
 notes.md
-prompts.txt
-run.sh
