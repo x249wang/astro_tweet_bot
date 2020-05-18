@@ -1,0 +1,12 @@
+beautifulsoup4==4.9.0
+flask==1.1.2
+gunicorn==20.0.4
+nltk==3.5
+pandas==1.0.3
+pg8000==1.15.2
+pre-commit==2.4.0
+SQLAlchemy==1.3.16
+tensorboardX==2.0
+transformers==2.8.0
+tweepy==3.8.0
+twint==2.1.18

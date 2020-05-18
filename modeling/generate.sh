@@ -8,6 +8,8 @@ PROMPTS_FILE="prompts.txt"
 mkdir ./$MODEL_FOLDER
 mkdir ./$OUTPUT_FOLDER
 
+pip install transformers tensorboardX --user
+
 git clone https://github.com/huggingface/transformers.git
 
 gsutil cp -r gs://gpt2-finetuning-astro-storage/$MODEL_FOLDER ./$MODEL_FOLDER
