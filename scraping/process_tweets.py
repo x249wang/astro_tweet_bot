@@ -103,8 +103,8 @@ def clean_tweet_table(raw_data, length_threshold=10, likes_threshold=20):
     )
 
     new_data = raw_data[
-        (not raw_data.is_short)
-        & (not raw_data.is_reply)
+        (raw_data.is_short == False)
+        & (raw_data.is_reply == False)
         & (raw_data.likes_count >= likes_threshold)
     ].drop_duplicates(subset=["tweet_cleaned"])
 
