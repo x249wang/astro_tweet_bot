@@ -2,7 +2,6 @@
 import os
 import time
 import twint
-from ast import literal_eval
 
 # Used to enable concurrent actions within a Jupyter notebook
 # Not needed if not using a notebook
@@ -34,10 +33,48 @@ class TweetSearch(object):
 
 if __name__ == "__main__":
     
-    if not os.path.exists('data/raw'):
-        os.mkdir('data/raw')
+    import argparse
+    from pathlib import Path
 
-    # Collects recent Tweets from a list of astrology accounts
+    parser = argparse.ArgumentParser(
+        description = 'Scrape Tweets from select Twitter accounts'
+    )
+
+    parser.add_argument(
+        '--data_dir',
+        type = Path,
+        help = 'Directory for saving Tweet data',
+        default = Path(__file__).absolute().parent / 'data' / 'raw'
+    )
+
+    parser.add_argument(
+        '--accounts_list',
+        type = Path,
+        help = 'File path to text file containing list of Twitter accounts to scrape',
+        default = Path(__file__).absolute().parent / 'twitter_accounts.txt'
+    )
+
+    parser.add_argument(
+        '--config_params',
+        metavar = 'KEY=VALUE',
+        nargs = '*',
+        help = 'Configuration parameters for Twint search (optional) as key value pairs (format: --config_params KEY=VALUE)'
+    )
+
+    args = parser.parse_args()
+
+
+    # Create folder for saving files
+    if not args.data_dir.exists():
+        args.data_dir.mkdir(parents = True)
+
+
+    # Read in list of Twitter accounts to scrape
+    with open(args.accounts_list, 'r') as fp:
+        accounts = [line.strip() for line in fp.readlines()]
+
+    # Config parameters for Twint search
+    # Defaults to recent Tweets (2018 and later), saved to csv
     params = {
         'Lang': 'en',
         'Since': "2018-01-01 0:0:0",
@@ -50,26 +87,20 @@ if __name__ == "__main__":
         'Hide_output': True
     }
 
-    accounts = [
-        'Rude_Astrology', 
-        'saguniversal', 
-        'AstrologyVibez', 
-        'starheal', 
-        'AnneOrtelee',
-        'martianmercury',
-        'astrobebs', 
-        'poetastrologers',
-        'astroguide', 
-        'keldreamer'
-    ]
+    if args.config_params:
+        for param in args.config_params:
+            key, value = param.split('=')
+            params[key] = value
+
 
     for account in accounts:
         
-        params['Output'] = f'data/raw/{account}.csv'
+        fp = args.data_dir / f'twitter_{account}.csv'
+        params['Output'] = str(fp)
         params['Username'] = account
         
         ts = TweetSearch(**params)
         ts.run()
 
-        time.sleep(60 * 10)
+        time.sleep(60 * 2)
 
