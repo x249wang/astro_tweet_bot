@@ -2,6 +2,8 @@
 __pycache__
 backup/
 tests/
-notes.md
+*.md
 */data/*
-*/transformers/*
+*/transformers/
+*/ft_results*/
+*/output/*
