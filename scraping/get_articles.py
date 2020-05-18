@@ -126,6 +126,21 @@ if __name__ == '__main__':
     # Sites to scrape and specifications for searching links/text
     with open('article_site_configs.json', 'r') as fp:
         site_configs = json.load(fp)
+    
+    # The configs should specify the following for each site:
+    # base_urls (list of str): links to main article list page
+    # tags_main (list of tuples): tags to use to search for article links on 
+    #   the main page(s). 
+    #   For example: 'tags_main': [('div', 'class', ['col-sm-4']), 
+    #                              ('div', 'class', ['col-sm-3'])]
+    # links_to_excl (str): regex pattern of links to specifically exclude (optional)
+    # links_to_incl (str): regex pattern of links to specifically include (optional)
+    # tags_post (list of tuples): tags to use within article pages to extract 
+    #   the main article text
+    # in_chunks (bool): whether to look for all occurrences of the tags (text 
+    #   is in chunks), or just a single instance
+    # split_on (str): regex pattern for how to split text into paragraphs, if 
+    #   the text is a single block
 
 
     # Scrape each site for astrology-related content and clean up texts
