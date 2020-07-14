@@ -1,4 +1,4 @@
-w
+
 DATA_FOLDER="data"
 MODEL_FOLDER="finetuning_results"
 INPUT_FILE="all_data.txt"
