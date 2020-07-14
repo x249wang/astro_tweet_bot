@@ -29,24 +29,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Clean generated Tweets")
 
     parser.add_argument(
-        "--input_file_path",
-        type=Path,
-        default=Path(__file__).absolute().parent
-        / "output"
-        / "bot_tweets_raw.txt",
-        help="Filepath to where raw text is stored",
-    )
-
-    parser.add_argument(
-        "--output_file_path",
-        type=Path,
-        default=Path(__file__).absolute().parent
-        / "output"
-        / "bot_tweets_cleaned.txt",
-        help="Filepath to where processed text should be stored",
-    )
-
-    parser.add_argument(
         "--max_char_length",
         type=int,
         default=280,
@@ -56,7 +38,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Load raw texts
-    with open(args.input_file_path, "r") as f:
+    input_file_path = Path("./output/bot_tweets_raw.txt")
+
+    with open(input_file_path, "r") as f:
         tweets = [line.strip() for line in f.readlines()]
 
     # Process text by removing incomplete sentences and
@@ -69,5 +53,7 @@ if __name__ == "__main__":
     random.shuffle(tweets)
 
     # Save output
-    with open(args.output_file_path, "w") as f:
+    output_file_path = Path("./output/bot_tweets_cleaned.txt")
+
+    with open(output_file_path, "w") as f:
         f.write("\n".join(tweets))

@@ -113,43 +113,23 @@ def clean_tweet_table(raw_data, length_threshold=10, likes_threshold=20):
 
 if __name__ == "__main__":
 
-    import argparse
     from pathlib import Path
 
-    parser = argparse.ArgumentParser(description="Clean up Tweet data")
-
-    parser.add_argument(
-        "--raw_data_dir",
-        type=Path,
-        help="Directory for saving raw scraped text",
-        default=Path(__file__).absolute().parent / "data" / "raw",
-    )
-
-    parser.add_argument(
-        "--processed_data_dir",
-        type=Path,
-        help="Directory for saving processed scraped text",
-        default=Path(__file__).absolute().parent / "data" / "processed",
-    )
-
-    parser.add_argument(
-        "---output_data_dir",
-        type=Path,
-        help="Directory for saving combined cleaned data file",
-        default=Path(__file__).absolute().parent / "data" / "final",
-    )
-
-    args = parser.parse_args()
-
     # Create folders for saving files
-    if not args.processed_data_dir.exists():
-        args.processed_data_dir.mkdir()
+    base_dir = Path("./data")
 
-    if not args.output_data_dir.exists():
-        args.output_data_dir.mkdir()
+    raw_data_dir = base_dir / "raw"
+    processed_data_dir = base_dir / "processed"
+    output_data_dir = base_dir / "final"
+
+    if not processed_data_dir.exists():
+        processed_data_dir.mkdir()
+
+    if not output_data_dir.exists():
+        output_data_dir.mkdir()
 
     # Iterate through raw data files for processing
-    raw_files = args.raw_data_dir.glob("twitter_*.csv")
+    raw_files = raw_data_dir.glob("twitter_*.csv")
 
     tweets = pd.DataFrame()
 
@@ -159,7 +139,8 @@ if __name__ == "__main__":
 
         clean_data = clean_tweet_table(raw_data)
 
-        fp_processed = args.processed_data_dir / f"{raw_file.stem}_cleaned.csv"
+        fp_processed = processed_data_dir / f"{raw_file.stem}_cleaned.csv"
+
         clean_data.to_csv(fp_processed, index=False)
 
         tweets = tweets.append(clean_data, ignore_index=True)
@@ -167,6 +148,7 @@ if __name__ == "__main__":
     tweets = tweets.drop_duplicates(subset=["tweet_cleaned"])
 
     # Save final result as one file
-    fp_output = args.output_data_dir / "tweet_data.txt"
+    fp_output = output_data_dir / "tweet_data.txt"
+
     with open(fp_output, "w") as f:
         f.write("\n".join(tweets.tweet_cleaned))

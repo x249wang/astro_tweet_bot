@@ -113,21 +113,16 @@ if __name__ == "__main__":
         help="Filepath to JSON file containing configs for websites to scrape",
     )
 
-    parser.add_argument(
-        "--raw_data_dir",
-        type=Path,
-        help="Directory for saving raw scraped text",
-        default=Path(__file__).absolute().parent / "data" / "raw",
-    )
-
     args = parser.parse_args()
 
     # Create folders for saving files
-    if not args.raw_data_dir.exists():
-        args.raw_data_dir.mkdir(parents=True)
+    raw_data_dir = Path("./data/raw")
+
+    if not raw_data_dir.exists():
+        raw_data_dir.mkdir(parents=True)
 
     # Sites to scrape and specifications for searching links/text
-    with open("article_site_configs.json", "r") as fp:
+    with open(args.config_filepath, "r") as fp:
         site_configs = json.load(fp)
 
     # The configs should specify the following for each site:
@@ -189,6 +184,7 @@ if __name__ == "__main__":
                         f"HTTPError encountered when trying to scrape {link}"
                     )
 
-            fp_raw = args.raw_data_dir / f"articles_{site}.txt"
+            fp_raw = raw_data_dir / f"articles_{site}.txt"
+
             with open(fp_raw, "a", encoding="utf-8") as f:
                 f.write("\n".join(raw_text) + "\n")

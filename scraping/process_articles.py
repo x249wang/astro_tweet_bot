@@ -70,43 +70,23 @@ def clean_article_text(text_chunks):
 
 if __name__ == "__main__":
 
-    import argparse
     from pathlib import Path
 
-    parser = argparse.ArgumentParser(description="Clean articles text")
-
-    parser.add_argument(
-        "--raw_data_dir",
-        type=Path,
-        help="Directory for saving raw scraped text",
-        default=Path(__file__).absolute().parent / "data" / "raw",
-    )
-
-    parser.add_argument(
-        "--processed_data_dir",
-        type=Path,
-        help="Directory for saving processed scraped text",
-        default=Path(__file__).absolute().parent / "data" / "processed",
-    )
-
-    parser.add_argument(
-        "---output_data_dir",
-        type=Path,
-        help="Directory for saving combined cleaned data file",
-        default=Path(__file__).absolute().parent / "data" / "final",
-    )
-
-    args = parser.parse_args()
-
     # Create folders for saving files
-    if not args.processed_data_dir.exists():
-        args.processed_data_dir.mkdir()
+    base_dir = Path("./data")
 
-    if not args.output_data_dir.exists():
-        args.output_data_dir.mkdir()
+    raw_data_dir = base_dir / "raw"
+    processed_data_dir = base_dir / "processed"
+    output_data_dir = base_dir / "final"
+
+    if not processed_data_dir.exists():
+        processed_data_dir.mkdir()
+
+    if not output_data_dir.exists():
+        output_data_dir.mkdir()
 
     # Iterate through raw data files for processing
-    raw_files = args.raw_data_dir.glob("articles_*.txt")
+    raw_files = raw_data_dir.glob("articles_*.txt")
 
     articles = []
 
@@ -117,13 +97,15 @@ if __name__ == "__main__":
 
         cleaned_text = clean_article_text(raw_text)
 
-        fp_processed = args.processed_data_dir / f"{raw_file.stem}_cleaned.txt"
+        fp_processed = processed_data_dir / f"{raw_file.stem}_cleaned.txt"
+
         with open(fp_processed, "a") as f:
             f.write("\n".join(cleaned_text) + "\n")
 
         articles += cleaned_text
 
     # Save final result as one file
-    fp_output = args.output_data_dir / "article_data.txt"
+    fp_output = output_data_dir / "article_data.txt"
+
     with open(fp_output, "w") as f:
         f.write("\n".join(articles))

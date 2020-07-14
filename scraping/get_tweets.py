@@ -2,11 +2,6 @@ import os
 import time
 import twint
 
-# Used to enable concurrent actions within a Jupyter notebook
-# Not needed if not using a notebook
-# import nest_asyncio
-# nest_asyncio.apply()
-
 
 class TweetSearch(object):
     """
@@ -41,13 +36,6 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
-        "--data_dir",
-        type=Path,
-        help="Directory for saving Tweet data",
-        default=Path(__file__).absolute().parent / "data" / "raw",
-    )
-
-    parser.add_argument(
         "--accounts_list",
         type=Path,
         help="File path to text file containing list of Twitter accounts to scrape",
@@ -64,8 +52,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Create folder for saving files
-    if not args.data_dir.exists():
-        args.data_dir.mkdir(parents=True)
+    raw_data_dir = Path("./data/raw")
+
+    if not raw_data_dir.exists():
+        raw_data_dir.mkdir(parents=True)
 
     # Read in list of Twitter accounts to scrape
     with open(args.accounts_list, "r") as fp:
@@ -92,7 +82,7 @@ if __name__ == "__main__":
 
     for account in accounts:
 
-        fp = args.data_dir / f"twitter_{account}.csv"
+        fp = raw_data_dir / f"twitter_{account}.csv"
         params["Output"] = str(fp)
         params["Username"] = account
 
