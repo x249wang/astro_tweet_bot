@@ -3,7 +3,7 @@
 
 ## Introduction
 
-Motivated by my desire to learn about cloud tools, my interest in seeing how well language models work in practice and my curiosity about astrology :crystal_ball:, the goal of this project is to build a bot that send out astrology-themed tweets at scheduled times, with the content generated from the GPT-2 language model. The project is hosted on Google Cloud Platform (GCP). It leverages [@minimaxir's](https://github.com/minimaxir) helpful [guide on running Twitter bots hosted on GCP](https://github.com/minimaxir/twitter-cloud-run) and the amazing `transformers` package from HuggingFace for working with the GPT-2 model.
+Motivated by my desire to learn about cloud tools, my interest in seeing how well language models work in practice and my curiosity about astrology :crystal_ball:, the goal of this project is to build a bot that sends out astrology-themed tweets at scheduled times, with the content generated from the GPT-2 language model. The project is hosted on Google Cloud Platform (GCP). It leverages [@minimaxir's](https://github.com/minimaxir) helpful [guide on running Twitter bots hosted on GCP](https://github.com/minimaxir/twitter-cloud-run) and the amazing `transformers` package from HuggingFace for working with the GPT-2 model.
 
 ### Overview of Steps Taken
 
@@ -116,6 +116,8 @@ And voila! :tada: A Twitter bot that publishes regularly on my behalf.
 1. I'd like to try using a smaller, distilled model, instead of GPT-2, which has 117M parameters and requires a lot of computational resources for fine-tuning and running inferences. A [distilled version from BERT](https://medium.com/huggingface/distilbert-8cf3380435b5) from HuggingFace was able to retain 97% of the original model's language understanding capabilities while using 40% fewer parameters and being 60% faster, by training a simpler student network to mimic the output distribution of the bigger teacher network. The same idea can be applied to other language models, like GPT-2, for speed improvements.
 
 2. The choice of starting prompts has an impact on the quality of text generated, which could reduce the amount of manual curation on the final results. I'd like to try generating candidates for prompts by analyzing the training data for common topics or phrases, as these may lead to more sensible wordings.
+
+3. The process for obtaining training data could also be automated further, for example, by training a one-class classifier on a sample of high-quality tweets, and applying it to more messages from followers or recommended accounts.
 
 ## Conclusion
 
