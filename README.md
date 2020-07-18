@@ -109,7 +109,7 @@ After verifying that the container is up and running on Cloud Run, the last step
 
 And voila! :tada: A Twitter bot that publishes regularly on my behalf.
 
-![Tweet Bot](assets/twitter_account.png)
+![Tweet Bot](assets/twitter_bot_account.png)
 
 ## Areas for improvement
 
