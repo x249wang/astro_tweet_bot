@@ -2,7 +2,6 @@
 __pycache__
 backup/
 tests/
-*.md
 */data/*
 */transformers/
 */ft_results*/
