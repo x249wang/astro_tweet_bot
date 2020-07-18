@@ -1,6 +1,6 @@
 
 MODEL_FOLDER="finetuning_results"
-SCRIPT_FILE="transformers/examples/run_generation.py"
+SCRIPT_FILE="transformers/examples/text_generation/run_generation.py"
 OUTPUT_FOLDER="output"
 OUTPUT_FILE="bot_tweets_raw.txt"
 PROMPTS_FILE="prompts.txt"
@@ -11,6 +11,7 @@ mkdir ./$OUTPUT_FOLDER
 pip install transformers tensorboardX --user
 
 git clone https://github.com/huggingface/transformers.git
+git checkout ba24001
 
 gsutil cp -r gs://gpt2-finetuning-astro-storage/$MODEL_FOLDER ./$MODEL_FOLDER
 

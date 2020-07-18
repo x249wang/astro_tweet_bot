@@ -2,7 +2,7 @@
 DATA_FOLDER="data"
 MODEL_FOLDER="finetuning_results"
 INPUT_FILE="all_data.txt"
-SCRIPT_FILE="transformers/examples/run_language_modeling.py"
+SCRIPT_FILE="transformers/examples/language-modeling/run_language_modeling.py"
 
 mkdir ./$DATA_FOLDER
 mkdir ./$MODEL_FOLDER
@@ -10,6 +10,7 @@ mkdir ./$MODEL_FOLDER
 pip install transformers tensorboardX --user
 
 git clone https://github.com/huggingface/transformers.git
+git checkout ba24001
 
 gsutil cp gs://gpt2-finetuning-astro-storage/$INPUT_FILE ./$DATA_FOLDER/$INPUT_FILE
 
